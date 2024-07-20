@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build": "esbuild llmv.ts --bundle --outfile=build/llmv.js",
+    "check": "tsc --noEmit llmv.ts"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.0",
+    "typescript": "^5.5.3"
+  }
+}
