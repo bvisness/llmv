@@ -1,15 +1,15 @@
-/* TODO: Remove tachyons to avoid bundle pollution */
-@import url("tachyons.min.css");
+@import url("css/utils.css");
 
-:root {
-  --llmv-border: white;
+.llmv-tape {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .llmv-region {
   display: flex;
   flex-direction: column;
   position: relative;
-  border-color: var(--llmv-border);
+  border-color: var(--llmv-c1);
   border-left-width: 1px;
   border-left-style: solid;
   border-right-width: 1px;
@@ -18,7 +18,7 @@
 
 .llmv-region-fields {
   display: flex;
-  border-color: var(--llmv-border);
+  border-color: var(--llmv-c1);
   border-top-width: 1px;
   border-top-style: solid;
   border-bottom-width: 1px;
@@ -29,7 +29,7 @@
 .llmv-subfield:not(:first-child) {
   border-left-style: solid;
   border-left-width: 1px;
-  border-left-color: hsla(0, 0%, 100%, .6);
+  border-left-color: var(--llmv-c2);
 }
 
 .llmv-bar {
@@ -37,7 +37,7 @@
 }
 
 .llmv-striped {
-  background: url("assets/diagonalstripes.svg");
+  background: url("css/diagonalstripes.svg");
   background-size: 8px;
   background-clip: content-box;
 }

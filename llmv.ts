@@ -49,29 +49,29 @@ export class LLMV {
       } 
     }
     
-    const elTape = E("div", ["tape", "flex", "flex-wrap"]);
+    const elTape = E("div", ["llmv-tape"]);
     for (const region of tape.regions) {
-      const elRegion = E("div", ["region"], [
+      const elRegion = E("div", ["llmv-region"], [
         // region address
-        E("div", ["code", "f7", "white-60", "flex", "flex-column", "justify-end", "pl1", "pb1"], [
+        E("div", ["llmv-code", "llmv-f3", "llmv-c2", "llmv-flex", "llmv-flex-column", "llmv-justify-end", "llmv-pl1", "llmv-pb1"], [
           Hex(region.addr),
         ]),
       ]);
       
-      const elFields = E("div", ["region-fields"]);
+      const elFields = E("div", ["llmv-region-fields"]);
       for (const field of this.pad(region.addr, region.size, region.fields)) {
         // TODO: Check if addresses are overlapping and warn.
         
-        const elField = E("div", ["field", "flex", "flex-column", "tc"]);
+        const elField = E("div", ["llmv-field", "llmv-flex", "llmv-flex-column", "llmv-tc"]);
         elField.style.width = this.width(field.size);
         
         if (Array.isArray(field.content)) {
-          const elSubfields = E("div", ["flex"]);
+          const elSubfields = E("div", ["llmv-flex"]);
           for (const subfield of this.pad(field.addr, field.size, field.content)) {
             if (Array.isArray(subfield.content)) {
               throw new Error("can't have sub-sub-fields");
             }
-            elSubfields.appendChild(FieldContent(subfield.content, "subfield"));
+            elSubfields.appendChild(FieldContent(subfield.content, "llmv-subfield"));
           }
           elField.appendChild(elSubfields);
         } else {
@@ -83,7 +83,7 @@ export class LLMV {
           if (typeof name === "string") {
             name = name.trim() || "\xA0"; // &nbsp;
           }
-          elField.appendChild(E("div", ["bt", "b--white-60", "white-60", "pa1", "f7"], name));
+          elField.appendChild(E("div", ["llmv-bt", "llmv-b2", "llmv-c2", "llmv-pa1", "llmv-f3"], name));
         }
         
         elFields.appendChild(elField);
@@ -94,8 +94,8 @@ export class LLMV {
       while (bars.length < maxBars) {
         bars.push({ addr: 0, size: 0 });
       }
-      const elBars = E("div", ["flex", "flex-column"], bars.map(bar => {
-        const elBar = E("div", ["h--bar"]);
+      const elBars = E("div", ["llmv-flex", "llmv-flex-column"], bars.map(bar => {
+        const elBar = E("div", ["llmv-bar"]);
         elBar.style.marginLeft = this.width(bar.addr - region.addr);
         elBar.style.width = this.width(bar.size);
         if (bar.color) {
@@ -105,7 +105,7 @@ export class LLMV {
       }));
       elRegion.appendChild(elBars);
       
-      elRegion.appendChild(E("div", ["f7", "tc"], region.description));
+      elRegion.appendChild(E("div", ["llmv-f3", "llmv-tc"], region.description));
       
       elTape.appendChild(elRegion);
     }
@@ -147,16 +147,18 @@ export class LLMV {
 }
 
 export function Padding() {
-  return E("div", ["flex-grow-1", "llmv-striped"]);
+  return E("div", ["llmv-flex-grow-1", "llmv-striped"]);
 }
 
-function FieldContent(content: BNode, klass: string | null = null) {
+function FieldContent(content: BNode, klass?: string) {
+  const classes = [klass, "llmv-flex-grow-1", "llmv-pa1", "llmv-flex", "llmv-flex-column", "llmv-code", "llmv-f2"];
   if (typeof content === "string") {
-    return E("div", [klass, "flex-grow-1", "pa1", "flex", "flex-column", "code", "f6"], [
+    classes.push("llmv-pa1");
+    return E("div", classes, [
       content,
     ]);
   }
-  return E("div", [klass, "flex-grow-1", "flex", "flex-column", "code", "f6"], content);
+  return E("div", classes, content);
 }
 
 export function Byte(n: number) {
