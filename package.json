@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "esbuild llmv.ts llmv.css --bundle --loader:.svg=dataurl --outdir=build",
+    "build": "esbuild llmv.ts llmv.css --bundle --format=esm --loader:.svg=dataurl --outdir=build",
     "check": "tsc --noEmit llmv.ts"
   },
   "devDependencies": {
