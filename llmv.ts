@@ -147,7 +147,7 @@ export class LLMV {
 }
 
 export function Padding() {
-  return E("div", ["flex-grow-1", "striped"]);
+  return E("div", ["flex-grow-1", "llmv-striped"]);
 }
 
 function FieldContent(content: BNode, klass: string | null = null) {

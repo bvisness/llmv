@@ -1,3 +1,6 @@
+/* TODO: Remove tachyons to avoid bundle pollution */
+@import url("tachyons.min.css");
+
 :root {
   --llmv-border: white;
 }
@@ -33,7 +36,7 @@
   height: 0.25rem;
 }
 
-.striped {
+.llmv-striped {
   background: url("assets/diagonalstripes.svg");
   background-size: 8px;
   background-clip: content-box;
