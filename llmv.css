@@ -1,0 +1,40 @@
+:root {
+  --llmv-border: white;
+}
+
+.llmv-region {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-color: var(--llmv-border);
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+
+.llmv-region-fields {
+  display: flex;
+  border-color: var(--llmv-border);
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.llmv-field:not(:first-child),
+.llmv-subfield:not(:first-child) {
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: hsla(0, 0%, 100%, .6);
+}
+
+.llmv-bar {
+  height: 0.25rem;
+}
+
+.striped {
+  background: url("assets/diagonalstripes.svg");
+  background-size: 8px;
+  background-clip: content-box;
+}
