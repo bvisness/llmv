@@ -6,7 +6,12 @@ export interface Tape {
   preRegion?: Region,
   regions: Region[],
   postRegion?: Region,
+  zoom?: number,
+
+  children?: Tape[],
 }
+
+type OnClick = (this: HTMLElement, e: MouseEvent) => void;
 
 export interface Region {
   addr: number,
@@ -21,7 +26,9 @@ export interface Field {
   size: number,
   name?: BNodes,
   tag?: BNodes,
+
   content: BNode | Field[],
+  onclick?: OnClick,
 }
 
 export interface Bar {
@@ -31,16 +38,10 @@ export interface Bar {
 }
 
 export class LLMV {
-  /**
-   * px per byte
-   */
-  zoom: number;
-
-  constructor() {
-    this.zoom = 24;
-  }
-  
   renderTape(tape: Tape) {
+    const zoom = tape.zoom ?? 24;
+    const elContainer = E("div", ["llmv-flex", "llmv-flex-column", "llmv-g3"]);
+
     // TODO: preRegion
     
     let maxBars = 1;
@@ -64,7 +65,7 @@ export class LLMV {
         // TODO: Check if addresses are overlapping and warn.
         
         const elField = E("div", ["llmv-field", "llmv-flex", "llmv-flex-column", "llmv-tc"]);
-        elField.style.width = this.width(field.size);
+        elField.style.width = this.width(field.size, zoom);
         
         if (Array.isArray(field.content)) {
           const elSubfields = E("div", ["llmv-flex"]);
@@ -72,11 +73,16 @@ export class LLMV {
             if (Array.isArray(subfield.content)) {
               throw new Error("can't have sub-sub-fields");
             }
-            elSubfields.appendChild(FieldContent(subfield.content, "llmv-subfield"));
+            elSubfields.appendChild(FieldContent(subfield.content, {
+              klass: "llmv-subfield",
+              onclick: field.onclick,
+            }));
           }
           elField.appendChild(elSubfields);
         } else {
-          elField.appendChild(FieldContent(field.content));
+          elField.appendChild(FieldContent(field.content, {
+            onclick: field.onclick,
+          }));
         }
         
         if (field.name) {
@@ -97,8 +103,8 @@ export class LLMV {
       }
       const elBars = E("div", ["llmv-flex", "llmv-flex-column"], bars.map(bar => {
         const elBar = E("div", ["llmv-bar"]);
-        elBar.style.marginLeft = this.width(bar.addr - region.addr);
-        elBar.style.width = this.width(bar.size);
+        elBar.style.marginLeft = this.width(bar.addr - region.addr, zoom);
+        elBar.style.width = this.width(bar.size, zoom);
         if (bar.color) {
           elBar.style.backgroundColor = bar.color;
         }
@@ -110,14 +116,23 @@ export class LLMV {
       
       elTape.appendChild(elRegion);
     }
+    elContainer.append(elTape);
     
     // TODO: postRegion
+
+    if (tape.children) {
+      const elChildren = E("div", ["llmv-pl3", "llmv-flex", "llmv-flex-column", "llmv-g3"]);
+      for (const child of tape.children) {
+        elChildren.appendChild(this.renderTape(child));
+      }
+      elContainer.append(elChildren);
+    }
     
-    return elTape;
+    return elContainer;
   }
   
-  width(size: number): string {
-    return `${size * this.zoom}px`;
+  width(size: number, zoom: number): string {
+    return `${Math.min(240, size * zoom)}px`;
   }
   
   pad(baseAddr: number, size: number, fields: Field[]): Field[] {
@@ -151,15 +166,21 @@ export function Padding() {
   return E("div", ["llmv-flex-grow-1", "llmv-striped"]);
 }
 
-function FieldContent(content: BNode, klass?: string) {
-  const classes = [klass, "llmv-flex-grow-1", "llmv-flex", "llmv-flex-column", "llmv-code", "llmv-f2"];
+function FieldContent(content: BNode, opts: { klass?: string, onclick?: OnClick } = {}) {
+  const classes = [opts.klass, opts.onclick && "llmv-clickable", "llmv-flex-grow-1", "llmv-flex", "llmv-flex-column", "llmv-code", "llmv-f2"];
+  let el: HTMLElement;
   if (typeof content === "string") {
     classes.push("llmv-pa1");
-    return E("div", classes, [
+    el = E("div", classes, [
       content,
     ]);
+  } else {
+    el = E("div", classes, content);
   }
-  return E("div", classes, content);
+  if (opts.onclick) {
+    el.addEventListener("click", opts.onclick);
+  }
+  return el;
 }
 
 export function Byte(n: number) {

@@ -37,7 +37,15 @@
 }
 
 .llmv-striped {
-  background: url("css/diagonalstripes.svg");
+  background: var(--llmv-padding-img);
   background-size: 8px;
   background-clip: content-box;
+}
+
+.llmv-clickable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--llmv-c-hover);
+  }
 }

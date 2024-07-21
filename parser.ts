@@ -11,9 +11,10 @@ export interface CRegion {
 }
 
 export interface CField {
+  name: string,
+  type: string,
   addr: number,
   size: number,
-  name: string,
 }
 
 export class Parser {
@@ -47,9 +48,10 @@ export class Parser {
               case LLMV_FIELD: {
                 this.consumeByte(LLMV_FIELD);
                 const field: CField = {
+                  name: this.consumeString(),
+                  type: this.consumeString(),
                   addr: this.consume64(),
                   size: this.consume64(),
-                  name: this.consumeString(),
                 };
                 cRegion.fields.push(field);
               } break;

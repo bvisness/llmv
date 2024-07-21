@@ -1,6 +1,17 @@
 :root {
-  --llmv-c1: white;
-  --llmv-c2: rgba(255, 255, 255, 0.6);
+  --llmv-c1-light: black;
+  --llmv-c2-light: rgba(0, 0, 0, 0.6);
+  --llmv-c1-dark: white;
+  --llmv-c2-dark: rgba(255, 255, 255, 0.6);
+  --llmv-c-hover-light: rgba(0, 0, 0, 0.1);
+  --llmv-c-hover-dark: rgba(255, 255, 255, 0.1);
+  --llmv-padding-img-light: url("diagonalstripes_light.svg");
+  --llmv-padding-img-dark: url("diagonalstripes_dark.svg");
+
+  --llmv-c1: var(--llmv-c1-light);
+  --llmv-c2: var(--llmv-c2-light);
+  --llmv-c-hover: var(--llmv-c-hover-light);
+  --llmv-padding-img: var(--llmv-padding-img-light);
   --llmv-code: Consolas, monaco, monospace;
   --llmv-f1: 1rem;
   --llmv-f2: 0.875rem;
@@ -8,6 +19,29 @@
   --llmv-spacing-1: 0.25rem;
   --llmv-spacing-2: 0.5rem;
   --llmv-spacing-3: 1rem;
+}
+
+.llmv-light {
+  --llmv-c1: var(--llmv-c1-light);
+  --llmv-c2: var(--llmv-c2-light);
+  --llmv-c-hover: var(--llmv-c-hover-light);
+  --llmv-padding-img: var(--llmv-padding-img-light);
+}
+
+.llmv-dark {
+  --llmv-c1: var(--llmv-c1-dark);
+  --llmv-c2: var(--llmv-c2-dark);
+  --llmv-c-hover: var(--llmv-c-hover-dark);
+  --llmv-padding-img: var(--llmv-padding-img-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  .llmv-lightdark {
+    --llmv-c1: var(--llmv-c1-dark);
+    --llmv-c2: var(--llmv-c2-dark);
+    --llmv-c-hover: var(--llmv-c-hover-dark);
+    --llmv-padding-img: var(--llmv-padding-img-dark);
+  }
 }
 
 .llmv-c1 {
@@ -150,6 +184,18 @@
 .llmv-pv3 {
   padding-top: var(--llmv-spacing-3);
   padding-bottom: var(--llmv-spacing-3);
+}
+
+.llmv-g1 {
+  gap: var(--llmv-spacing-1);
+}
+
+.llmv-g2 {
+  gap: var(--llmv-spacing-2);
+}
+
+.llmv-g3 {
+  gap: var(--llmv-spacing-3);
 }
 
 .llmv-flex {
