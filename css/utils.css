@@ -43,18 +43,22 @@
 }
 
 .llmv-bl {
+  border-left-style: solid;
   border-left-width: 1px;
 }
 
 .llmv-br {
+  border-right-style: solid;
   border-right-width: 1px;
 }
 
 .llmv-bt {
+  border-top-style: solid;
   border-top-width: 1px;
 }
 
 .llmv-bb {
+  border-bottom-style: solid;
   border-bottom-width: 1px;
 }
 

@@ -152,7 +152,7 @@ export function Padding() {
 }
 
 function FieldContent(content: BNode, klass?: string) {
-  const classes = [klass, "llmv-flex-grow-1", "llmv-pa1", "llmv-flex", "llmv-flex-column", "llmv-code", "llmv-f2"];
+  const classes = [klass, "llmv-flex-grow-1", "llmv-flex", "llmv-flex-column", "llmv-code", "llmv-f2"];
   if (typeof content === "string") {
     classes.push("llmv-pa1");
     return E("div", classes, [
