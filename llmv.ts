@@ -1,5 +1,6 @@
 import { BNode, BNodes, E } from "./dom";
 export * from "./dom";
+export * from "./parser";
 
 export interface Tape {
   preRegion?: Region,
